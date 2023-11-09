@@ -7,19 +7,23 @@ import java.util.Scanner;
 
 public class MundoChiquito {
     
-    static LinkedList<CartaMostro> lecturaCSV(Scanner sc) {
+    public static LinkedList<CartaMostro> lecturaCSV(Scanner sc) {
         LinkedList<CartaMostro> cartas = new LinkedList<CartaMostro>();
         sc.useDelimiter(",|(\\n)|(\r\n)");
 
+        // Creo que el archivo de pruebas del profesor va a contener
+        // el header de "nombre, nivel, ..." que se debe evitar
         while(sc.hasNextLine()) {
             String nombre = sc.next();
             String nivel = sc.next();
             String atributo = sc.next();
             String poder = sc.next();
 
-            // Creo que este if no deberia ir, el mazo incluye cartas repetidas
+            // Creo que este if no deberia ir, 
+            // se supone que el mazo incluye cartas repetidas
             // y esto es importante para poder devolver ternas que si sean 
-            // posibles 
+            // posibles, aunque al final resulta que el archivo no 
+            // tendra estas cartas repetidas 
             // if (!contains(nombre, lista)) {
 
                 // La comprobacion de los atributos por lo general se hace en el 
@@ -87,23 +91,23 @@ public class MundoChiquito {
     //     }
     // }
 
-    static class mazo {
+    public static class mazo {
 
         // En el primer proyecto estaba bien usar la estructura LinkedList
         // dado que estabamos implementado la version de Meza, pero como 
         // tenemos a eleccion la repreesentacion del grafo, es mala idea 
-        // usarlo
+        // usarlo, es preferible usar ArrayList
         // private LinkedList<CartaMostro> vertices;
 
         // En vez de hacer una implementacion de lista de listas
         // una implementacion de hashMap a la lista de sucesores 
-        // es preferible
+        // es preferible para evitar el uso de nodos.
         private HashMap<CartaMostro, ArrayList<CartaMostro>> grafo;
 
         public mazo(Scanner sc) {
             // this.vertices = lecturaCSV(sc);
 
-            // Agregamos los veritces
+            // Agregamos los vertices
             grafo = new HashMap<CartaMostro, ArrayList<CartaMostro>>();
             LinkedList<CartaMostro> cartas = lecturaCSV(sc);
             for (CartaMostro carta: cartas) {
@@ -111,7 +115,7 @@ public class MundoChiquito {
             }
 
             // Ahora agregamos los vecinos para cada carta, es importante notar
-            // que como se trata de un grafo no dirigido 
+            // que se trata de un grafo no dirigido 
             for (CartaMostro carta1: grafo.keySet()){
                 ArrayList<CartaMostro> vecinos = grafo.get(carta1);
                 for (CartaMostro carta2: grafo.keySet()){
@@ -125,6 +129,7 @@ public class MundoChiquito {
         }
             
         // Esta funcion podria generar errores por como Java maneja las referencias
+        // y no veo que se use en otra parte
         // public LinkedList<CartaMostro> getBaraja() {
             // return this.vertices;
         // }
@@ -145,10 +150,10 @@ public class MundoChiquito {
 
         // Esta funcion esta muy buena como shortcut y como solo la
         // usamos en ese sentido la volvemos privada
-        private static boolean estanConectadas(CartaMostro inicio, CartaMostro ultimo) {
-            if (inicio.getNivel().equals(ultimo.getNivel()) ||
-                inicio.getPoder().equals(ultimo.getPoder()) || 
-                inicio.getAtributo().equals(ultimo.getAtributo())) {
+        private static boolean estanConectadas(CartaMostro carta1, CartaMostro carta2) {
+            if (carta1.getNivel().equals(carta2.getNivel()) ||
+                carta1.getPoder().equals(carta2.getPoder()) || 
+                carta1.getAtributo().equals(carta2.getAtributo())) {
                 return true;
             } else {
                 return false;
@@ -184,6 +189,8 @@ public class MundoChiquito {
                         // no deberiamos crear una terna en la que la carta que 
                         // te quedas del mazo sea la que tenias en la mano, ya 
                         // que esto no tiene sentido
+                        // Pero como el archivo del mazo no tendra las 
+                        // cartas repetidas, lo obviamos
                         // if(vecinoDelVecino.equals(carta)){    
                         //     continue;
                         // }
