@@ -11,7 +11,7 @@ public class CartaMostro {
         }
 
         // Creo que el poder tambien deberia ser mayor o igual a cero, no estoy segura
-        if(poder % 50 != 0){
+        if(poder % 50 != 0 && poder >= 0){
             throw new IllegalArgumentException("poder debe ser un numero entero multiplo de 50");
         }
 
