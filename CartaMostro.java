@@ -10,9 +10,12 @@ public class CartaMostro {
             throw new IllegalArgumentException("nivel fuera del rango [1, 12]");
         }
 
-        // Creo que el poder tambien deberia ser mayor o igual a cero, no estoy segura
-        if(poder % 50 != 0 && poder >= 0){
+        if(poder % 50 != 0){
             throw new IllegalArgumentException("poder debe ser un numero entero multiplo de 50");
+        }
+
+        if(poder < 0){
+            throw new IllegalArgumentException("poder debe ser un numero mayor o igual que 0");
         }
 
         String elementos[] = {"AGUA", "FUEGO", "VIENTO", "TIERRA", "LUZ", "OSCURIDAD", "DIVINO"};
